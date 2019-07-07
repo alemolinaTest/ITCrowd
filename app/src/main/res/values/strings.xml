@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">Weather</string>
+    <!--empty state-->
+    <string name="empty_screen">We do not have anything\nhere right now.</string>
+    <string name="please_retry">Please Retry</string>
+    <string name="retry">Retry</string>
+    <!--about fragment-->
+    <string name="project_info">Alejandro Molina Base Application Model. This app is a way to show how i work. Using DI
+        Dagger 2, MVVM design pattern, ROOM, Glide, Android Networking.
+    </string>
+
+    <!--main pages-->
+    <string name="title">Weather</string>
+    <string name="weather">Show</string>
+    <string name="location_permission_denied">Location permission denied. Please give us permission to get your
+        location
+    </string>
+
+    <string name="action_search">Search</string>
+
+    <string name="temp_time">Time:</string>
+    <string name="temp_title">Temp:</string>
+    <string name="temp_title_max">Máx:</string>
+    <string name="temp_title_min">Min:</string>
+    <string name="visibility_title_min">Visibility:</string>
+    <string name="sunrise_title_min">Sunrise:</string>
+    <string name="sunset_title_min">Sunset:</string>
+    <string name="title_activity_main">Wheater</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Alejandro Molina</string>
+    <string name="nav_header_subtitle">alemigmolina@gmail.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <!--DATE FORMAT-->
+
+    <string name="date_format_day_month_text">EEEE dd \'de\' MMMM</string>
+    <string name="date_format_month_text">dd \'de\' MMMM</string>
+    <string name="date_format_month_year_text">dd \'de\' MMMM yyyy</string>
+    <string name="date_format_day_hour_text">EEEE dd \'a las\' HH:mm a</string>
+    <string name="date_format_day_hour_not_military_text">EEEE dd\',\' HH:MM a</string>
+    <string name="title_activity_cities">CitiesActivity</string>
+    <string name="empty_text">No Data. Please swipe to refresh</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="ok_button">OK</string>
+    <string name="delete_description">Sure to delete Selected City?</string>
+    <string name="delete_title">Delete Dialog</string>
+    <string name="add_title">Add City</string>
+    <string name="add_description">Sure to Add this City to selected List?</string>
+
+
+</resources>

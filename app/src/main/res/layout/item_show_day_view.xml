@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.amolina.weather.clima.ui.showDays.ShowDaysItemModel" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@color/white"
+            app:cardCornerRadius="7dp"
+            app:cardElevation="4dp">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingBottom="30dp">
+
+
+                <TextView
+                        android:id="@+id/cityNameTextView"
+                        style="@style/TextStyle.Heading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="20dp"
+                        android:text="@{viewModel.time}"
+                        tools:text="12:00"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/weatherImageView"
+                        app:layout_constraintTop_toTopOf="parent" android:layout_marginBottom="8dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/weatherImageView"/>
+
+                <ImageView
+                        android:id="@+id/weatherImageView"
+                        android:contentDescription="content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="80dp"
+                        android:scaleType="fitCenter"
+                        app:imageUrl="@{viewModel.imageUrl}"
+                        tools:src="@drawable/ragnarok"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0" android:layout_marginBottom="8dp"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <TextView
+                        android:id="@+id/tempTitleTextView"
+                        style="@style/TextStyle.Title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:textStyle="normal"
+                        android:text="@string/temp_title"
+                        app:layout_constraintEnd_toStartOf="@+id/tempTextView"
+                        app:layout_constraintStart_toStartOf="parent" android:layout_marginTop="8dp"
+                        app:layout_constraintTop_toBottomOf="@+id/cityNameTextView"/>
+
+                <TextView
+                        android:id="@+id/tempTextView"
+                        style="@style/TextStyle.Title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:text="@{viewModel.temp}"
+                        android:textStyle="normal"
+                        tools:text="34"
+                        app:layout_constraintStart_toEndOf="@+id/tempTitleTextView"
+                        android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/cityNameTextView"/>
+
+                <TextView
+                        android:id="@+id/tempMaxTitleTextView"
+                        style="@style/TextStyle.Title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:textStyle="normal"
+                        android:text="@string/temp_title_max"
+                        app:layout_constraintTop_toBottomOf="@+id/tempTitleTextView"
+                        app:layout_constraintEnd_toStartOf="@+id/tempMaxTextView"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                        android:id="@+id/tempMaxTextView"
+                        style="@style/TextStyle.Title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:text="@{viewModel.tempMax}"
+                        android:textStyle="normal"
+                        tools:text="34"
+                        app:layout_constraintTop_toBottomOf="@+id/tempMaxTitleTextView"
+                        app:layout_constraintStart_toEndOf="@+id/tempMaxTitleTextView"/>
+
+                <TextView
+                        android:id="@+id/tempMinTitleTextView"
+                        style="@style/TextStyle.Title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:textStyle="normal"
+                        android:text="@string/temp_title_min"
+                        app:layout_constraintTop_toBottomOf="@+id/tempMaxTitleTextView"
+                        app:layout_constraintEnd_toStartOf="@+id/tempMinTextView"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                        android:id="@+id/tempMinTextView"
+                        style="@style/TextStyle.Title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:text="@{viewModel.tempMin}"
+                        android:textStyle="normal"
+                        tools:text="34"
+                        app:layout_constraintTop_toBottomOf="@+id/tempTitleTextView"
+                        app:layout_constraintStart_toEndOf="@+id/tempMinTitleTextView"/>
+
+
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
+    </RelativeLayout>
+
+</layout>
