@@ -51,7 +51,4 @@
     <string name="add_title">Add City</string>
     <string name="add_description">Sure to Add this City to selected List?</string>
 
-    <string name="google_maps_key">AIzaSyBOq2aZZIWf2n9p0QFx0tuLl52PciYooXY</string>
-
-
 </resources>

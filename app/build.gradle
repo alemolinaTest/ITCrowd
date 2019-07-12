@@ -25,6 +25,7 @@ android {
             buildConfigField("String", "BASE_URL_ICON", "\"http://openweathermap.org/img/w/\"")
             buildConfigField("String", "BASE_URL_ICON_TAIL", "\".png\"")
             buildConfigField("String", "API_KEY", "\"6141c5825a01e15fe580e44cab47c2a0\"")
+            manifestPlaceholders = [ google_maps_key:"\"AIzaSyBOq2aZZIWf2n9p0QFx0tuLl52PciYooXY\""]
         }
         debug {
 
@@ -33,6 +34,7 @@ android {
             buildConfigField("String", "BASE_URL_ICON", "\"http://openweathermap.org/img/w/\"")
             buildConfigField("String", "BASE_URL_ICON_TAIL", "\".png\"")
             buildConfigField("String", "API_KEY", "\"6141c5825a01e15fe580e44cab47c2a0\"")
+            manifestPlaceholders = [ google_maps_key:"\"AIzaSyBOq2aZZIWf2n9p0QFx0tuLl52PciYooXY\""]
 
         }
     }
@@ -97,7 +99,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.1.0'
     androidTestImplementation "org.mockito:mockito-core:$rootProject.mockitoVersion"
     androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:$rootProject.dagger2Version"
-    implementation  "com.google.android.gms:play-services-maps:17.0.0"
+    implementation "com.google.android.gms:play-services-maps:17.0.0"
     implementation "com.google.android.gms:play-services-location:17.0.0"
 
 
