@@ -1,6 +1,7 @@
 package com.amolina.weather.clima.ui.show
 
 import androidx.databinding.ObservableField
+import com.google.android.gms.maps.model.LatLng
 
 /**
  * Created by Amolina on 02/07/19.
@@ -8,7 +9,7 @@ import androidx.databinding.ObservableField
 
 class ShowItemModel(imageUrl: String, city: String, temp: String, tempMin: String, tempMax: String, time: String,
                     visibility: String, country: String, sunrise: String, sunset: String, cityId: Int,
-                    pressure: String, humidity: String) {
+                    pressure: String, humidity: String, coord: LatLng) {
 
     lateinit var mListener: ShowDaysListener
 
@@ -37,4 +38,5 @@ class ShowItemModel(imageUrl: String, city: String, temp: String, tempMin: Strin
     val sunset = ObservableField<String>(sunset)
     val pressure = ObservableField<String>(pressure)
     val humidity = ObservableField<String>(humidity)
+    val coord: LatLng = coord
 }

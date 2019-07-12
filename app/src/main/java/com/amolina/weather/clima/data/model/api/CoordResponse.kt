@@ -1,7 +1,7 @@
 package com.amolina.weather.clima.data.model.api
 
-data class CoordResponse (
+data class CoordResponse(
 
-	val lon : Double,
-	val lat : Double
+        var lon: Double,
+        var lat: Double
 )

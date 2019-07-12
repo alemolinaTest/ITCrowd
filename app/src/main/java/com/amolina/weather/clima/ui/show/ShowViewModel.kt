@@ -3,6 +3,7 @@ package com.amolina.weather.clima.ui.show
 import androidx.lifecycle.MutableLiveData
 import androidx.databinding.ObservableArrayList
 import com.amolina.weather.clima.data.DataManager
+import com.amolina.weather.clima.data.model.api.CoordResponse
 import com.amolina.weather.clima.data.model.api.WeatherListResponse
 import com.amolina.weather.clima.data.model.api.WeatherResponse
 import com.amolina.weather.clima.data.model.db.*
@@ -10,8 +11,10 @@ import com.amolina.weather.clima.data.remote.ApiEndPoint
 import com.amolina.weather.clima.rx.SchedulerProvider
 import com.amolina.weather.clima.ui.base.BaseViewModel
 import com.amolina.weather.clima.utils.*
+import com.google.android.gms.maps.model.LatLng
 import io.reactivex.Observable
-import io.reactivex.functions.Function4
+import io.reactivex.Observable.zip
+import io.reactivex.functions.Function5
 import java.util.*
 
 /**
@@ -79,17 +82,19 @@ class ShowViewModel(
 
     private fun combineWeather(weather: CurrentWeather): Observable<WeatherResponse> {
         val cityId = weather.id
-        return Observable.zip(
+        return zip(
                 dataManager.getCurrentWeatherById(cityId.toInt()),
                 dataManager.getCurrentWeatherListById(cityId.toInt()),
                 dataManager.getCurrentWeatherMainById(cityId.toInt()),
                 dataManager.getCurrentWeatherSysById(cityId.toInt()),
-                Function4 { weather: CurrentWeather, weatherList: List<CurrentWeatherList>, mainList: CurrentWeatherMain, sysList: CurrentWeatherSys ->
-                    return@Function4 setWeatherListsResponse(
+                dataManager.getCityById(cityId),
+                Function5 { weather: CurrentWeather, weatherList: List<CurrentWeatherList>, mainList: CurrentWeatherMain, sysList: CurrentWeatherSys, city: City ->
+                    return@Function5 setWeatherListsResponse(
                             weather,
                             weatherList,
                             mainList,
-                            sysList
+                            sysList,
+                            city
                     )
                 })
     }
@@ -97,7 +102,7 @@ class ShowViewModel(
 
     private fun setWeatherListsResponse(
             weather: CurrentWeather, weatherList: List<CurrentWeatherList>,
-            mainList: CurrentWeatherMain, sysList: CurrentWeatherSys
+            mainList: CurrentWeatherMain, sysList: CurrentWeatherSys, city: City
     ): WeatherResponse {
         var response = WeatherResponse()
         var weatherListResponse = listOf(weatherList.first().toWeatherListResponse())
@@ -114,6 +119,7 @@ class ShowViewModel(
 
         response.main = mainList.toMainListResponse()
         response.sys = sysList.toWeatherSysResponse()
+        response.coord = CoordResponse(lat = city.coord.lat, lon = city.coord.lon)
 
         return response
     }
@@ -129,6 +135,7 @@ class ShowViewModel(
                 val weather = response[i].weather?.get(0)
                 val main = response[i].main
                 val sys = response[i].sys
+                val coord = response[i].coord!!
 
                 if (sys != null) {
                     if (main != null) {
@@ -146,7 +153,8 @@ class ShowViewModel(
                                         sunset = getDateFromUTCTimestamp(sys.sunset.toLong(), HOUR_FORMAT),
                                         cityId = response[i].id,
                                         pressure = main.pressure.toString(),
-                                        humidity = main.humidity.toString()
+                                        humidity = main.humidity.toString(),
+                                        coord = LatLng(coord.lat, coord.lon)
                                 )
                         )
                     }

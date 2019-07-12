@@ -2,6 +2,7 @@ package com.amolina.weather.clima.ui.show
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.ObservableField
 import com.amolina.weather.clima.databinding.ItemShowEmptyViewBinding
 import com.amolina.weather.clima.databinding.ItemShowViewBinding
 import com.amolina.weather.clima.ui.base.BaseViewHolder
@@ -79,6 +80,7 @@ class ShowAdapter : androidx.recyclerview.widget.RecyclerView.Adapter<BaseViewHo
     inner class ShowViewHolder(private val mBinding: ItemShowViewBinding, private val parent: ViewGroup) :
             BaseViewHolder(mBinding.getRoot()), ShowItemModel.ShowDaysListener, OnMapReadyCallback {
 
+        private var coord: LatLng? = null
         lateinit var mapCurrent: GoogleMap
         private val mapView: MapView by lazy { mBinding.mapView }
         private val city: String by lazy { mBinding.cityNameTextView.text.toString() }
@@ -102,6 +104,8 @@ class ShowAdapter : androidx.recyclerview.widget.RecyclerView.Adapter<BaseViewHo
             mBinding.viewModel = mShowItemViewModel
             pos = position
 
+            coord = mShowItemViewModel?.coord
+
             // Immediate Binding
             // When a variable or observable changes, the binding will be scheduled to change before
             // the next frame. There are times, however, when binding must be executed immediately.
@@ -123,9 +127,9 @@ class ShowAdapter : androidx.recyclerview.widget.RecyclerView.Adapter<BaseViewHo
 
             with(mapCurrent) {
 
-                moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng( -24.794025, -65.416381), 13f))
+                moveCamera(CameraUpdateFactory.newLatLngZoom(coord, 13f))
 
-                addMarker(com.google.android.gms.maps.model.MarkerOptions().position(LatLng( -24.794025, -65.416381)))
+                addMarker(coord?.let { com.google.android.gms.maps.model.MarkerOptions().position(it) })
 
                 mapType = GoogleMap.MAP_TYPE_NORMAL
 
@@ -148,6 +152,7 @@ class ShowAdapter : androidx.recyclerview.widget.RecyclerView.Adapter<BaseViewHo
         }
 
         fun clearView() {
+            if (!::mapCurrent.isInitialized) return
 
             with(mapCurrent) {
 
