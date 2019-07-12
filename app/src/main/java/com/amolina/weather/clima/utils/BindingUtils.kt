@@ -1,7 +1,7 @@
 package com.amolina.weather.clima.utils
 
-import android.databinding.BindingAdapter
-import android.support.v7.widget.RecyclerView
+import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 import android.widget.ImageView
 import com.amolina.weather.clima.ui.show.ShowAdapter
 import com.amolina.weather.clima.ui.show.ShowItemModel
@@ -26,10 +26,20 @@ object BindingUtils {
     }
 
     @JvmStatic
+    @BindingAdapter("android:imageUrl")
+    fun ImageView.loadImageUrl(url: String?) {
+        if (url == null) return
+
+        Glide.with(context)
+                .load(url)
+                .into(this)
+    }
+
+    @JvmStatic
     @BindingAdapter("adapter")
     fun addWeatherItems(
-        recyclerView: RecyclerView,
-        showItems: ArrayList<ShowItemModel>
+            recyclerView: androidx.recyclerview.widget.RecyclerView,
+            showItems: ArrayList<ShowItemModel>
     ) {
         val adapter = recyclerView.adapter as ShowAdapter
         adapter.clearItems()

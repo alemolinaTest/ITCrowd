@@ -1,7 +1,7 @@
 package com.amolina.weather.clima.ui.showDays
 
-import android.arch.lifecycle.MutableLiveData
-import android.databinding.ObservableArrayList
+import androidx.lifecycle.MutableLiveData
+import androidx.databinding.ObservableArrayList
 import com.amolina.weather.clima.data.DataManager
 import com.amolina.weather.clima.data.model.api.ForecastListResponse
 import com.amolina.weather.clima.data.model.api.ForecastResponse

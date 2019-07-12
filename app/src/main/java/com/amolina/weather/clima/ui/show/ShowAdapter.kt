@@ -1,20 +1,20 @@
 package com.amolina.weather.clima.ui.show
 
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-
 import com.amolina.weather.clima.databinding.ItemShowEmptyViewBinding
 import com.amolina.weather.clima.databinding.ItemShowViewBinding
 import com.amolina.weather.clima.ui.base.BaseViewHolder
+import com.google.android.gms.maps.*
+import com.google.android.gms.maps.model.LatLng
+import java.util.*
 
-import java.util.ArrayList
 
 /**
  * Created by Amolina on 02/07/19.
  */
 
-class ShowAdapter : RecyclerView.Adapter<BaseViewHolder>() {
+class ShowAdapter : androidx.recyclerview.widget.RecyclerView.Adapter<BaseViewHolder>() {
 
     private val mShowResponseList: MutableList<ShowItemModel>?
     private var mListener: ShowAdapterListener? = null
@@ -36,16 +36,16 @@ class ShowAdapter : RecyclerView.Adapter<BaseViewHolder>() {
         return when (viewType) {
             VIEW_TYPE_NORMAL -> {
                 val weatherViewBinding = ItemShowViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                ShowViewHolder(weatherViewBinding)
+                ShowViewHolder(weatherViewBinding, parent)
             }
             VIEW_TYPE_EMPTY -> {
                 val emptyViewBinding =
-                    ItemShowEmptyViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                        ItemShowEmptyViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 EmptyViewHolder(emptyViewBinding)
             }
             else -> {
                 val emptyViewBinding =
-                    ItemShowEmptyViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                        ItemShowEmptyViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 EmptyViewHolder(emptyViewBinding)
             }
         }
@@ -76,8 +76,24 @@ class ShowAdapter : RecyclerView.Adapter<BaseViewHolder>() {
         mShowResponseList!!.clear()
     }
 
-    inner class ShowViewHolder(private val mBinding: ItemShowViewBinding) : BaseViewHolder(mBinding.getRoot()),
-       ShowItemModel.ShowDaysListener {
+    inner class ShowViewHolder(private val mBinding: ItemShowViewBinding, private val parent: ViewGroup) :
+            BaseViewHolder(mBinding.getRoot()), ShowItemModel.ShowDaysListener, OnMapReadyCallback {
+
+        lateinit var mapCurrent: GoogleMap
+        private val mapView: MapView by lazy { mBinding.mapView }
+        private val city: String by lazy { mBinding.cityNameTextView.text.toString() }
+
+        /** Initialises the MapView by calling its lifecycle methods */
+
+        init {
+            with(mapView) {
+                // Initialise the MapView
+                onCreate(null)
+                // Set the map ready callback to receive the GoogleMap object
+                getMapAsync(this@ShowViewHolder)
+            }
+        }
+
         var pos = 0
 
         override fun onBind(position: Int) {
@@ -86,7 +102,6 @@ class ShowAdapter : RecyclerView.Adapter<BaseViewHolder>() {
             mBinding.viewModel = mShowItemViewModel
             pos = position
 
-
             // Immediate Binding
             // When a variable or observable changes, the binding will be scheduled to change before
             // the next frame. There are times, however, when binding must be executed immediately.
@@ -94,15 +109,59 @@ class ShowAdapter : RecyclerView.Adapter<BaseViewHolder>() {
             mBinding.executePendingBindings()
         }
 
+        override fun onMapReady(googleMap: GoogleMap?) {
+            MapsInitializer.initialize(parent.context)
+            mapCurrent = googleMap!!
+
+            setMapLocation()
+
+        }
+
+        private fun setMapLocation() {
+
+            if (!::mapCurrent.isInitialized) return
+
+            with(mapCurrent) {
+
+                moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng( -24.794025, -65.416381), 13f))
+
+                addMarker(com.google.android.gms.maps.model.MarkerOptions().position(LatLng( -24.794025, -65.416381)))
+
+                mapType = GoogleMap.MAP_TYPE_NORMAL
+
+                setOnMapClickListener {
+
+                    android.widget.Toast.makeText(parent.context, "Clicked on ${city}",
+
+                            android.widget.Toast.LENGTH_SHORT).show()
+
+                }
+
+            }
+
+        }
+
         override fun onShowDaysClick() {
             mShowResponseList?.get(pos)?.cityId?.get()?.let {
                 mListener!!.oShowDaysClick(it)
             }
         }
+
+        fun clearView() {
+
+            with(mapCurrent) {
+
+                // Clear the map and free up resources by changing the map type to none
+                clear()
+                mapType = GoogleMap.MAP_TYPE_NONE
+            }
+        }
+
     }
 
+
     inner class EmptyViewHolder(private val mBinding: ItemShowEmptyViewBinding) : BaseViewHolder(mBinding.root),
-        ShowEmptyItemModel.ShowEmptyItemViewModelListener {
+            ShowEmptyItemModel.ShowEmptyItemViewModelListener {
 
         override fun onBind(position: Int) {
             val emptyItemViewModel = ShowEmptyItemModel(this)
@@ -117,9 +176,8 @@ class ShowAdapter : RecyclerView.Adapter<BaseViewHolder>() {
     interface ShowAdapterListener {
         fun onRetryClick()
 
-        fun oShowDaysClick(cityId:Int)
+        fun oShowDaysClick(cityId: Int)
     }
-
 
 
     companion object {

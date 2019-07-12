@@ -1,7 +1,7 @@
 package com.amolina.weather.clima.data.local.db
 
-import android.arch.persistence.room.Database
-import android.arch.persistence.room.RoomDatabase
+import androidx.room.Database
+import androidx.room.RoomDatabase
 import com.amolina.weather.clima.data.local.db.dao.CityDao
 import com.amolina.weather.clima.data.local.db.dao.ForecastDao
 import com.amolina.weather.clima.data.local.db.dao.WeatherDao

@@ -25,6 +25,8 @@
     <string name="visibility_title_min">Visibility:</string>
     <string name="sunrise_title_min">Sunrise:</string>
     <string name="sunset_title_min">Sunset:</string>
+    <string name="pressure_title">Pressure:</string>
+    <string name="humidity_title">Humidity:</string>
     <string name="title_activity_main">Wheater</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -48,6 +50,8 @@
     <string name="delete_title">Delete Dialog</string>
     <string name="add_title">Add City</string>
     <string name="add_description">Sure to Add this City to selected List?</string>
+
+    <string name="google_maps_key">AIzaSyBOq2aZZIWf2n9p0QFx0tuLl52PciYooXY</string>
 
 
 </resources>

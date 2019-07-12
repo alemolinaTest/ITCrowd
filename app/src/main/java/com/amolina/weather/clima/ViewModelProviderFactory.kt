@@ -1,7 +1,7 @@
 package com.amolina.weather.clima
 
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 
 /**
  * Created by Amolina on 19/02/18.

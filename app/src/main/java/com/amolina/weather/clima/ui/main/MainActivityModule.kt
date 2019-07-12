@@ -1,6 +1,6 @@
 package com.amolina.weather.clima.ui.main
 
-import android.arch.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider
 
 import com.amolina.weather.clima.ViewModelProviderFactory
 import com.amolina.weather.clima.data.DataManager

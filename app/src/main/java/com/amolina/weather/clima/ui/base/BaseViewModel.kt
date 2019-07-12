@@ -1,7 +1,7 @@
 package com.amolina.weather.clima.ui.base
 
-import android.arch.lifecycle.ViewModel
-import android.databinding.ObservableBoolean
+import androidx.lifecycle.ViewModel
+import androidx.databinding.ObservableBoolean
 
 import com.amolina.weather.clima.data.DataManager
 import com.amolina.weather.clima.rx.SchedulerProvider

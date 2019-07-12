@@ -1,7 +1,7 @@
 package com.amolina.weather.clima.data.model.db
 
 
-import android.arch.persistence.room.*
+import androidx.room.*
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 

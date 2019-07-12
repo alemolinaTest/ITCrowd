@@ -2,7 +2,7 @@ package com.amolina.weather.clima.ui.location
 
 import android.Manifest
 import android.content.Context
-import android.support.annotation.RequiresPermission
+import androidx.annotation.RequiresPermission
 import com.amolina.weather.clima.utils.CommonUtils
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices

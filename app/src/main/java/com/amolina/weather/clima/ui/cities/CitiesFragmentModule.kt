@@ -1,6 +1,7 @@
 package com.amolina.weather.clima.ui.cities
 
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.amolina.weather.clima.ui.citiesSelection.CitiesSelectFragment
 
 import dagger.Module
 import dagger.Provides
@@ -13,8 +14,8 @@ import javax.inject.Singleton
 class CitiesFragmentModule {
 
     @Provides
-    internal fun provideLinearLayoutManager(fragment: CitiesFragment): LinearLayoutManager {
-        return LinearLayoutManager(fragment.activity)
+    internal fun provideLinearLayoutManager(fragment: CitiesFragment): androidx.recyclerview.widget.LinearLayoutManager {
+        return androidx.recyclerview.widget.LinearLayoutManager(fragment.activity)
     }
 
     @Provides

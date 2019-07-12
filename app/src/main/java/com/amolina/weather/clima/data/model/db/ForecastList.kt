@@ -1,6 +1,6 @@
 package com.amolina.weather.clima.data.model.db
 
-import android.arch.persistence.room.*
+import androidx.room.*
 
 /**
  * Created by Amolina on 10/02/2019.

@@ -1,6 +1,6 @@
 package com.amolina.weather.clima.data.local.db.dao
 
-import android.arch.persistence.room.*
+import androidx.room.*
 import com.amolina.weather.clima.data.model.db.*
 
 

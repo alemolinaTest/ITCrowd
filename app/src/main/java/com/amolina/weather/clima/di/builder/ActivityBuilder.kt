@@ -4,6 +4,8 @@ package com.amolina.weather.clima.di.builder
 import com.amolina.weather.clima.ui.cities.CitiesActivity
 import com.amolina.weather.clima.ui.cities.CitiesFragmentProvider
 import com.amolina.weather.clima.ui.cities.CitiesModule
+import com.amolina.weather.clima.ui.citiesSelection.CitiesSelectionFragmentProvider
+import com.amolina.weather.clima.ui.citiesSelection.CitiesSelectionModule
 import com.amolina.weather.clima.ui.main.MainActivity
 import com.amolina.weather.clima.ui.main.MainActivityModule
 import com.amolina.weather.clima.ui.show.ShowFragmentProvider
@@ -30,7 +32,7 @@ abstract class ActivityBuilder {
     @ContributesAndroidInjector(modules = [MainActivityModule::class, ShowFragmentProvider::class])
     internal abstract fun bindMainActivity(): MainActivity
 
-    @ContributesAndroidInjector(modules = [CitiesModule::class, CitiesFragmentProvider::class])
+    @ContributesAndroidInjector(modules = [CitiesModule::class, CitiesFragmentProvider::class, CitiesSelectionFragmentProvider::class, CitiesSelectionModule::class])
     internal abstract fun bindCitiesActivity(): CitiesActivity
 
 }

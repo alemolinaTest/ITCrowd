@@ -1,6 +1,6 @@
 package com.amolina.weather.clima.ui.cities
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.amolina.weather.clima.databinding.ItemCityBinding
@@ -15,7 +15,7 @@ import java.util.ArrayList
  * Created by Amolina on 02/07/19.
  */
 
-class CitiesAdapter : RecyclerView.Adapter<BaseViewHolder>() {
+class CitiesAdapter : androidx.recyclerview.widget.RecyclerView.Adapter<BaseViewHolder>() {
 
     private val mShowResponseList: MutableList<CitiesItemModel>?
     private var mListener: CitiesAdapterListener? = null

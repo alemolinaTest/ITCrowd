@@ -1,7 +1,7 @@
 package com.amolina.weather.clima.ui.cities
 
-import android.arch.lifecycle.MutableLiveData
-import android.databinding.ObservableArrayList
+import androidx.lifecycle.MutableLiveData
+import androidx.databinding.ObservableArrayList
 import com.amolina.weather.clima.data.DataManager
 import com.amolina.weather.clima.data.model.db.City
 import com.amolina.weather.clima.rx.SchedulerProvider
@@ -18,7 +18,7 @@ import io.reactivex.subjects.PublishSubject
  */
 
 open class CitiesViewModel(dataManager: DataManager, schedulerProvider: SchedulerProvider) :
-    BaseViewModel<Any>(dataManager, schedulerProvider) {
+        BaseViewModel<Any>(dataManager, schedulerProvider) {
 
     val TAG: String = this::class.java.simpleName
     val showCities: MutableLiveData<List<CitiesItemModel>> = MutableLiveData()
@@ -26,51 +26,62 @@ open class CitiesViewModel(dataManager: DataManager, schedulerProvider: Schedule
     val citiesItemViewModels = ObservableArrayList<CitiesItemModel>()
     val cityDeleted: MutableLiveData<Boolean> = MutableLiveData()
     val cityAdded: MutableLiveData<Boolean> = MutableLiveData()
+    val allCities: MutableLiveData<List<CitiesItemModel>> = MutableLiveData()
 
 
     fun getSearchedCities(search: String) {
         setIsLoading(true)
-       //Log.d(TAG, "checkNearestCity")
+        //Log.d(TAG, "checkNearestCity")
         compositeDisposable.add(
-            combineSearchedCities(search)
-                .subscribeOn(schedulerProvider.io())
-                .observeOn(schedulerProvider.ui())
-                .subscribeWith(getCitiesObserver())
+                dataManager.allCities
+                        .subscribeOn(schedulerProvider.io())
+                        .observeOn(schedulerProvider.ui())
+                        .subscribe({ cities ->
+
+                            val citiesList = cities.toList().filter { it.name.toUpperCase().contains(search.toUpperCase(), true) }
+
+                            allCities.value = getViewModel(citiesList.sortedBy { it.name })
+                            setIsLoading(false)
+                        }, { throwable ->
+                            setIsLoading(false)
+                            throwable.printStackTrace()
+                        })
         )
     }
 
     fun getNearAndSelectedAllCities() {
         setIsLoading(true)
-       //Log.d(TAG, "checkNearestCity")
+        //Log.d(TAG, "checkNearestCity")
         compositeDisposable.add(
-            combineNearAndSelectedCities()
-                .subscribeOn(schedulerProvider.io())
-                .observeOn(schedulerProvider.ui())
-                .subscribeWith(getCitiesObserver())
+                combineNearAndSelectedCities()
+                        .subscribeOn(schedulerProvider.io())
+                        .observeOn(schedulerProvider.ui())
+                        .subscribeWith(getCitiesObserver())
         )
     }
 
     fun getAllCities() {
         setIsLoading(true)
-      //Log.d(TAG, "checkNearestCity")
+        //Log.d(TAG, "checkNearestCity")
         compositeDisposable.add(
-            dataManager.allCities
-                .subscribeOn(schedulerProvider.io())
-                .observeOn(schedulerProvider.ui())
-                .subscribe({ cities ->
-                    if (cities != null) {
-                        val responseList = ArrayList<City>()
-                        cities.forEach() {
-                            responseList.add(it)
-                        }
+                dataManager.allCities
+                        .subscribeOn(schedulerProvider.io())
+                        .observeOn(schedulerProvider.ui())
+                        .subscribe({ cities ->
+                            if (cities != null) {
+                                val responseList = ArrayList<City>()
+                                cities.forEach() {
+                                    responseList.add(it)
+                                }
 
-                        showCities.value = getViewModel(responseList.sortedBy { it.name })
-                    }
-                    setIsLoading(false)
-                }, { throwable ->
-                    setIsLoading(false)
-                    throwable.printStackTrace()
-                })
+                                showCities.value = getViewModel(responseList.sortedBy { it.name })
+                                //allCities.value = showCities
+                            }
+                            setIsLoading(false)
+                        }, { throwable ->
+                            setIsLoading(false)
+                            throwable.printStackTrace()
+                        })
 
         )
     }
@@ -79,7 +90,7 @@ open class CitiesViewModel(dataManager: DataManager, schedulerProvider: Schedule
         return object : DisposableObserver<List<CitiesItemModel>>() {
             override fun onComplete() {
                 setIsLoading(false)
-               //Log.d(TAG, "saverObserver - onComplete")
+                //Log.d(TAG, "saverObserver - onComplete")
 
             }
 
@@ -88,7 +99,7 @@ open class CitiesViewModel(dataManager: DataManager, schedulerProvider: Schedule
             }
 
             override fun onNext(cities: List<CitiesItemModel>) {
-               //Log.d(TAG, "saverObserver - onNext")
+                //Log.d(TAG, "saverObserver - onNext")
                 showCities.value = cities
 
             }
@@ -98,31 +109,31 @@ open class CitiesViewModel(dataManager: DataManager, schedulerProvider: Schedule
     private fun combineNearAndSelectedCities(): Observable<List<CitiesItemModel>> {
 
         return Observable.zip(
-            dataManager.allSelectedCities.take(1),
-            dataManager.allNearestCities,
-            BiFunction() { selected: List<City>, near: List<City> ->
-                return@BiFunction setCitiesListsResponse(
-                    selected,
-                    near
-                )
-            })
+                dataManager.allSelectedCities.take(1),
+                dataManager.allNearestCities,
+                BiFunction() { selected: List<City>, near: List<City> ->
+                    return@BiFunction setCitiesListsResponse(
+                            selected,
+                            near
+                    )
+                })
     }
 
     private fun combineSearchedCities(search: String): Observable<List<CitiesItemModel>> {
 
         return Observable.zip(
-            dataManager.getCitySelectedBySearch(search),
-            dataManager.getCityNearestBySearch(search),
-            BiFunction() { selected: List<City>, near: List<City> ->
-                return@BiFunction setCitiesListsResponse(
-                    selected,
-                    near
-                )
-            })
+                dataManager.getCitySelectedBySearch(search.toUpperCase()),
+                dataManager.getCityNearestBySearch(search.toUpperCase()),
+                BiFunction() { selected: List<City>, near: List<City> ->
+                    return@BiFunction setCitiesListsResponse(
+                            selected,
+                            near
+                    )
+                })
     }
 
     private fun setCitiesListsResponse(
-        selected: List<City>, near: List<City>
+            selected: List<City>, near: List<City>
     ): List<CitiesItemModel> {
         val responseList = ArrayList<City>()
         selected.forEach() {
@@ -147,52 +158,52 @@ open class CitiesViewModel(dataManager: DataManager, schedulerProvider: Schedule
 
     fun deleteCity(cityId: Int) {
         setIsLoading(true)
-       //Log.d(TAG, "fetchLocalWeather")
+        //Log.d(TAG, "fetchLocalWeather")
         compositeDisposable.add(
-            combineDelete(cityId)
-                .subscribeOn(schedulerProvider.io())
-                .observeOn(schedulerProvider.ui())
-                .subscribeWith(deleteObserver(cityId))
+                combineDelete(cityId)
+                        .subscribeOn(schedulerProvider.io())
+                        .observeOn(schedulerProvider.ui())
+                        .subscribeWith(deleteObserver(cityId))
 
         )
     }
 
     fun addCity(cityId: Int) {
         setIsLoading(true)
-       //Log.d(TAG, "addCity")
+        //Log.d(TAG, "addCity")
         compositeDisposable.add(
-            dataManager.getCityById(cityId.toLong())
-                .subscribeOn(schedulerProvider.io())
-                .observeOn(schedulerProvider.ui())
-                .subscribe({ response ->
-                    if (response != null) {
-                        response.setSelected()
-                        setSelectedCity(response)
-                    }
-                    setIsLoading(false)
-                }, { throwable ->
-                    setIsLoading(false)
-                    throwable.printStackTrace()
-                })
+                dataManager.getCityById(cityId.toLong())
+                        .subscribeOn(schedulerProvider.io())
+                        .observeOn(schedulerProvider.ui())
+                        .subscribe({ response ->
+                            if (response != null) {
+                                response.setSelected()
+                                setSelectedCity(response)
+                            }
+                            setIsLoading(false)
+                        }, { throwable ->
+                            setIsLoading(false)
+                            throwable.printStackTrace()
+                        })
 
         )
     }
 
     private fun setSelectedCity(city: City) {
         setIsLoading(true)
-       //Log.d(TAG, "setSelectedCity: " + city.name)
+        //Log.d(TAG, "setSelectedCity: " + city.name)
         compositeDisposable.add(
-            dataManager
-                .updateCity(city)
-                .subscribeOn(schedulerProvider.io())
-                .observeOn(schedulerProvider.ui())
-                .subscribe({ response ->
-                    cityAdded.value = response
-                    setIsLoading(false)
-                }, { throwable ->
-                    throwable.printStackTrace()
-                    setIsLoading(false)
-                })
+                dataManager
+                        .updateCity(city)
+                        .subscribeOn(schedulerProvider.io())
+                        .observeOn(schedulerProvider.ui())
+                        .subscribe({ response ->
+                            cityAdded.value = response
+                            setIsLoading(false)
+                        }, { throwable ->
+                            throwable.printStackTrace()
+                            setIsLoading(false)
+                        })
         )
     }
 
@@ -200,7 +211,7 @@ open class CitiesViewModel(dataManager: DataManager, schedulerProvider: Schedule
         return object : DisposableObserver<Boolean>() {
             override fun onComplete() {
                 setIsLoading(true)
-               //Log.d(TAG, "saverObserver - onComplete")
+                //Log.d(TAG, "saverObserver - onComplete")
                 cityDeleted.value = true
 
             }
@@ -210,7 +221,7 @@ open class CitiesViewModel(dataManager: DataManager, schedulerProvider: Schedule
             }
 
             override fun onNext(distance: Boolean) {
-               //Log.d(TAG, "saverObserver - onNext")
+                //Log.d(TAG, "saverObserver - onNext")
 
             }
         }
@@ -218,12 +229,12 @@ open class CitiesViewModel(dataManager: DataManager, schedulerProvider: Schedule
 
     private fun combineDelete(CityId: Int): Observable<Boolean> {
         return Observable.zip(
-            dataManager.deleteCity(CityId),
-            dataManager.deleteForecastByCity(CityId),
-            dataManager.deleteWeatherByCity(CityId),
-            Function3 { forecastRes: Boolean, forecastListRes: Boolean, weatherListRes: Boolean ->
-                return@Function3 forecastRes && forecastListRes && weatherListRes
-            })
+                dataManager.deleteCity(CityId),
+                dataManager.deleteForecastByCity(CityId),
+                dataManager.deleteWeatherByCity(CityId),
+                Function3 { forecastRes: Boolean, forecastListRes: Boolean, weatherListRes: Boolean ->
+                    return@Function3 forecastRes && forecastListRes && weatherListRes
+                })
     }
 
     fun addCitiesItemsToList(showItems: List<CitiesItemModel>) {

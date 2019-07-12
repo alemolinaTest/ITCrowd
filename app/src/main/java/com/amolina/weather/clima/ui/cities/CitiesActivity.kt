@@ -4,16 +4,17 @@ import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
-import android.support.v4.app.Fragment
-import android.support.v4.app.NavUtils
-import android.support.v7.widget.SearchView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.fragment.app.Fragment
+import androidx.core.app.NavUtils
+import androidx.appcompat.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
 import com.amolina.weather.clima.BR
 import com.amolina.weather.clima.R
 import com.amolina.weather.clima.databinding.ActivityCitiesBinding
 import com.amolina.weather.clima.ui.base.BaseActivity
+import com.amolina.weather.clima.ui.citiesSelection.CitiesSelectFragment
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
@@ -68,7 +69,7 @@ class CitiesActivity : BaseActivity<ActivityCitiesBinding, CitiesViewModel>(), H
                 if (fab == null) {
                 } else {
                     fab.setOnClickListener {
-                        loadCitiesFragment(CitiesFragment.newInstance(all=true))
+                        loadCitiesFragment(CitiesSelectFragment.newInstance(all=true))
                     }
                 }
             }
@@ -93,49 +94,47 @@ class CitiesActivity : BaseActivity<ActivityCitiesBinding, CitiesViewModel>(), H
 
     private lateinit var searchView: SearchView
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        return when {
-            isMain -> setNoSearchOptionMenu(menu)
-            else -> setSearchOptionMenu(menu)
-        }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menu?.let { setNoSearchOptionMenu(it)}
+        return super.onCreateOptionsMenu(menu)
     }
 
-    private fun setSearchOptionMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
-
-        // Associate searchable configuration with the SearchView
-        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        searchView = menu.findItem(R.id.action_search)
-            .actionView as SearchView
-        searchView?.setSearchableInfo(
-            searchManager
-                .getSearchableInfo(componentName)
-        )
-        searchView?.setMaxWidth(Integer.MAX_VALUE)
-
-        searchView?.setOnCloseListener(SearchView.OnCloseListener {
-            mCitiesViewModel.getAllCities()
-
-            false
-        })
-
-
-        // listening to search query text change
-        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                // filter recycler view when query submitted
-                mCitiesViewModel.getSearchedCities(query)
-                return false
-            }
-
-            override fun onQueryTextChange(query: String): Boolean {
-                // filter recycler view when text is changed
-                return false
-            }
-        })
-
-        return true
-    }
+//    private fun setSearchOptionMenu(menu: Menu): Boolean {
+//        menuInflater.inflate(R.menu.menu_main, menu)
+//
+//        // Associate searchable configuration with the SearchView
+//        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+//        searchView = menu.findItem(R.id.action_search)
+//            .actionView as SearchView
+//        searchView.setSearchableInfo(
+//                searchManager
+//                        .getSearchableInfo(componentName)
+//        )
+//        searchView.setMaxWidth(Integer.MAX_VALUE)
+//
+//        searchView.setOnCloseListener(SearchView.OnCloseListener {
+//            mCitiesViewModel.getAllCities()
+//
+//            false
+//        })
+//
+//
+//        // listening to search query text change
+//        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+//            override fun onQueryTextSubmit(query: String): Boolean {
+//                // filter recycler view when query submitted
+//                mCitiesViewModel.getSearchedCities(query)
+//                return false
+//            }
+//
+//            override fun onQueryTextChange(query: String): Boolean {
+//                // filter recycler view when text is changed
+//                return false
+//            }
+//        })
+//
+//        return true
+//    }
 
     private fun setNoSearchOptionMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_cities, menu)
@@ -166,6 +165,10 @@ class CitiesActivity : BaseActivity<ActivityCitiesBinding, CitiesViewModel>(), H
     }
 
     private fun loadCitiesFragment(fragment: Fragment) {
+        addFragment(fragment, R.id.content, true)
+    }
+
+    private fun loadCitiesSelectFragment(fragment: Fragment) {
         addFragment(fragment, R.id.content, true)
     }
 

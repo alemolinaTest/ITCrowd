@@ -1,7 +1,7 @@
 package com.amolina.weather.clima.ui.show
 
-import android.arch.lifecycle.MutableLiveData
-import android.databinding.ObservableArrayList
+import androidx.lifecycle.MutableLiveData
+import androidx.databinding.ObservableArrayList
 import com.amolina.weather.clima.data.DataManager
 import com.amolina.weather.clima.data.model.api.WeatherListResponse
 import com.amolina.weather.clima.data.model.api.WeatherResponse
@@ -19,8 +19,8 @@ import java.util.*
  */
 
 class ShowViewModel(
-    dataManager: DataManager,
-    schedulerProvider: SchedulerProvider
+        dataManager: DataManager,
+        schedulerProvider: SchedulerProvider
 ) : BaseViewModel<ShowNavigator>(dataManager, schedulerProvider) {
 
     val TAG: String = this::class.java.simpleName
@@ -32,49 +32,47 @@ class ShowViewModel(
     fun fetchLocalWeather() {
         clearWeatherResponses()
         setIsLoading(true)
-       //Log.d(TAG, "fetchLocalWeather")
+        //Log.d(TAG, "fetchLocalWeather")
         compositeDisposable.add(
-            dataManager
-                .allLocalWeather
-                .subscribeOn(schedulerProvider.io())
-                .observeOn(schedulerProvider.ui())
-                .subscribe({ weathers ->
-                    if (!weathers.isNullOrEmpty()) {
-                       //Log.d(TAG, "setViewModelList to LiveData")
-                        weathers.forEach { weather ->
-                            fetchWeatherListResponse(weather)
-                        }
-                        weatherResponses.clear()
-                    }
-                    setIsLoading(false)
-                }, { throwable ->
-                    setIsLoading(false)
-                    throwable.printStackTrace()
-                    navigator!!.handleError(throwable)
-                })
+                dataManager
+                        .allLocalWeather
+                        .subscribeOn(schedulerProvider.io())
+                        .observeOn(schedulerProvider.ui())
+                        .subscribe({ weathers ->
+                            if (!weathers.isNullOrEmpty()) {
+                                //Log.d(TAG, "setViewModelList to LiveData")
+                                weathers.forEach { weather ->
+                                    fetchWeatherListResponse(weather)
+                                }
+                                weatherResponses.clear()
+                            }
+                            setIsLoading(false)
+                        }, { throwable ->
+                            setIsLoading(false)
+                            throwable.printStackTrace()
+                            navigator!!.handleError(throwable)
+                        })
         )
     }
 
     private fun fetchWeatherListResponse(wResponse: CurrentWeather) {
         setIsLoading(true)
-       //Log.d(TAG, "fetchLocalWeather")
+        //Log.d(TAG, "fetchLocalWeather")
         compositeDisposable.add(
-            combineWeather(wResponse)
-                .subscribeOn(schedulerProvider.io())
-                .observeOn(schedulerProvider.ui())
-                .subscribe({ weatherResponse ->
-                    if (weatherResponse != null) {
-                       //Log.d(TAG, "setViewModelList to LiveData")
-                        weatherResponses.add(weatherResponse)
-                        showRepos.value = getViewModelListResponse(weatherResponses)
+                combineWeather(wResponse)
+                        .subscribeOn(schedulerProvider.io())
+                        .observeOn(schedulerProvider.ui())
+                        .subscribe({ weatherResponse ->
+                            //Log.d(TAG, "setViewModelList to LiveData")
+                            weatherResponses.add(weatherResponse)
+                            showRepos.value = getViewModelListResponse(weatherResponses)
 
-                    }
-                    setIsLoading(false)
-                }, { throwable ->
-                    setIsLoading(false)
-                    throwable.printStackTrace()
-                    navigator!!.handleError(throwable)
-                })
+                            setIsLoading(false)
+                        }, { throwable ->
+                            setIsLoading(false)
+                            throwable.printStackTrace()
+                            navigator!!.handleError(throwable)
+                        })
 
         )
     }
@@ -82,24 +80,24 @@ class ShowViewModel(
     private fun combineWeather(weather: CurrentWeather): Observable<WeatherResponse> {
         val cityId = weather.id
         return Observable.zip(
-            dataManager.getCurrentWeatherById(cityId.toInt()),
-            dataManager.getCurrentWeatherListById(cityId.toInt()),
-            dataManager.getCurrentWeatherMainById(cityId.toInt()),
-            dataManager.getCurrentWeatherSysById(cityId.toInt()),
-            Function4 { weather: CurrentWeather, weatherList: List<CurrentWeatherList>, mainList: CurrentWeatherMain, sysList: CurrentWeatherSys ->
-                return@Function4 setWeatherListsResponse(
-                    weather,
-                    weatherList,
-                    mainList,
-                    sysList
-                )
-            })
+                dataManager.getCurrentWeatherById(cityId.toInt()),
+                dataManager.getCurrentWeatherListById(cityId.toInt()),
+                dataManager.getCurrentWeatherMainById(cityId.toInt()),
+                dataManager.getCurrentWeatherSysById(cityId.toInt()),
+                Function4 { weather: CurrentWeather, weatherList: List<CurrentWeatherList>, mainList: CurrentWeatherMain, sysList: CurrentWeatherSys ->
+                    return@Function4 setWeatherListsResponse(
+                            weather,
+                            weatherList,
+                            mainList,
+                            sysList
+                    )
+                })
     }
 
 
     private fun setWeatherListsResponse(
-        weather: CurrentWeather, weatherList: List<CurrentWeatherList>,
-        mainList: CurrentWeatherMain, sysList: CurrentWeatherSys
+            weather: CurrentWeather, weatherList: List<CurrentWeatherList>,
+            mainList: CurrentWeatherMain, sysList: CurrentWeatherSys
     ): WeatherResponse {
         var response = WeatherResponse()
         var weatherListResponse = listOf(weatherList.first().toWeatherListResponse())
@@ -135,19 +133,21 @@ class ShowViewModel(
                 if (sys != null) {
                     if (main != null) {
                         weatherItemList.add(
-                            ShowItemModel(
-                                ApiEndPoint.ENDPOINT_FORECAST_ICON + weather?.icon + ApiEndPoint.ENDPOINT_FORECAST_ICON_TAIL,
-                                response[i].name,
-                                main.temp.toString(),
-                                sys.message.toString(),
-                                main.temp_max.toString(),
-                                getDateFromUTCTimestamp(response[i].dt.toLong(), DATE_FORMAT_FACEBOOK),
-                                response[i].visibility.toString(),
-                                sys.country,
-                                getDateFromUTCTimestamp(sys.sunrise.toLong(), HOUR_FORMAT),
-                                getDateFromUTCTimestamp(sys.sunset.toLong(), HOUR_FORMAT),
-                                response[i].id
-                            )
+                                ShowItemModel(
+                                        imageUrl = ApiEndPoint.ENDPOINT_FORECAST_ICON + weather?.icon + ApiEndPoint.ENDPOINT_FORECAST_ICON_TAIL,
+                                        city = response[i].name,
+                                        temp = main.temp.toString(),
+                                        tempMin = sys.message.toString(),
+                                        tempMax = main.temp_max.toString(),
+                                        time = getDateFromUTCTimestamp(response[i].dt.toLong(), DATE_FORMAT_FACEBOOK),
+                                        visibility = response[i].visibility.toString(),
+                                        country = sys.country,
+                                        sunrise = getDateFromUTCTimestamp(sys.sunrise.toLong(), HOUR_FORMAT),
+                                        sunset = getDateFromUTCTimestamp(sys.sunset.toLong(), HOUR_FORMAT),
+                                        cityId = response[i].id,
+                                        pressure = main.pressure.toString(),
+                                        humidity = main.humidity.toString()
+                                )
                         )
                     }
                 }
@@ -156,7 +156,7 @@ class ShowViewModel(
         return weatherItemList
     }
 
-    fun clearWeatherResponses(){
+    fun clearWeatherResponses() {
         weatherResponses.clear()
     }
 

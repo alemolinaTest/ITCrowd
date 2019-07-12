@@ -1,6 +1,6 @@
 package com.amolina.weather.clima.ui.show
 
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 
 import dagger.Module
 import dagger.Provides
@@ -19,8 +19,8 @@ class ShowFragmentModule {
     }
 
     @Provides
-    internal fun provideLinearLayoutManager(fragment: ShowFragment): LinearLayoutManager {
-        return LinearLayoutManager(fragment.activity)
+    internal fun provideLinearLayoutManager(fragment: ShowFragment): androidx.recyclerview.widget.LinearLayoutManager {
+        return androidx.recyclerview.widget.LinearLayoutManager(fragment.activity)
     }
 
 }

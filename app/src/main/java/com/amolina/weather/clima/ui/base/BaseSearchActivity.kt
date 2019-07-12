@@ -6,12 +6,12 @@ import android.app.SearchManager
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.res.Configuration
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import android.os.Build
 import android.os.Bundle
-import android.support.v4.os.LocaleListCompat
-import android.support.v7.app.AppCompatActivity
+import androidx.core.os.LocaleListCompat
+import androidx.appcompat.app.AppCompatActivity
 import android.view.inputmethod.InputMethodManager
 
 import com.amolina.weather.clima.utils.CommonUtils
@@ -20,11 +20,11 @@ import com.amolina.weather.clima.utils.NetworkUtils
 import dagger.android.AndroidInjection
 
 import android.os.Build.VERSION.SDK_INT
-import android.support.annotation.AnimRes
-import android.support.annotation.IdRes
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
-import android.support.v7.widget.SearchView
+import androidx.annotation.AnimRes
+import androidx.annotation.IdRes
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
+import androidx.appcompat.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
 import com.amolina.weather.clima.R
@@ -200,21 +200,21 @@ abstract class BaseSearchActivity<T : ViewDataBinding, V : BaseViewModel<*>> : A
     }
 
     fun addFragment(
-        fragmentView: Fragment,
-        addToStack: Boolean,
-        container:Int,
-        @AnimRes enter: Int = 0,
-        @AnimRes exit: Int = 0
+            fragmentView: Fragment,
+            addToStack: Boolean,
+            container:Int,
+            @AnimRes enter: Int = 0,
+            @AnimRes exit: Int = 0
     ) {
         addFragment(fragmentView,container, addToStack, enter, exit)
     }
 
     override fun addFragment(
-        fragmentView: Fragment,
-        @IdRes containerId: Int,
-        addToStack: Boolean,
-        @AnimRes enter: Int,
-        @AnimRes exit: Int
+            fragmentView: Fragment,
+            @IdRes containerId: Int,
+            addToStack: Boolean,
+            @AnimRes enter: Int,
+            @AnimRes exit: Int
     ) {
         tryOrPrintException {
                 supportFragmentManager.beginTransaction().apply {

@@ -5,13 +5,13 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.res.Configuration
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import android.os.Build
 import android.os.Bundle
-import android.support.annotation.LayoutRes
-import android.support.v4.os.LocaleListCompat
-import android.support.v7.app.AppCompatActivity
+import androidx.annotation.LayoutRes
+import androidx.core.os.LocaleListCompat
+import androidx.appcompat.app.AppCompatActivity
 import android.view.inputmethod.InputMethodManager
 
 import com.amolina.weather.clima.utils.CommonUtils

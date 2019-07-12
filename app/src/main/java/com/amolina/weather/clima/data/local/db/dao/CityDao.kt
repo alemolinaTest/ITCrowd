@@ -1,6 +1,6 @@
 package com.amolina.weather.clima.data.local.db.dao
 
-import android.arch.persistence.room.*
+import androidx.room.*
 import com.amolina.weather.clima.data.model.db.City
 
 
@@ -20,10 +20,10 @@ interface CityDao {
     @Query("SELECT * FROM city WHERE distance > 0")
     fun loadAllNearest(): List<City>
 
-    @Query("SELECT * FROM city WHERE selected = 1 and name like :search")
+    @Query("SELECT * FROM city WHERE selected = 1 and name GLOB '*' || :search|| '*'")
     fun loadSelectedSearch(search:String): List<City>
 
-    @Query("SELECT * FROM city WHERE distance > 0 and name like :search")
+    @Query("SELECT * FROM city WHERE distance > 0 and  UPPER(name) GLOB '*' || :search|| '*'")
     fun loadNearestSearch(search:String): List<City>
 
     @Query("SELECT * FROM city WHERE id = :cityId")

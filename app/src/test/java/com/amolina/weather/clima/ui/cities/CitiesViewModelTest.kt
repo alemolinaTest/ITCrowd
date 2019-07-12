@@ -1,6 +1,6 @@
 package com.amolina.weather.clima.ui.cities
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import com.amolina.weather.clima.data.DataManager
 import com.amolina.weather.clima.data.model.db.City
 import com.amolina.weather.clima.data.model.db.Location

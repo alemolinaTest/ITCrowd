@@ -1,6 +1,6 @@
 package com.amolina.weather.clima.data.local.db
 
-import android.arch.persistence.room.TypeConverter
+import androidx.room.TypeConverter
 import com.amolina.weather.clima.data.model.db.City
 
 import com.google.gson.Gson

@@ -1,14 +1,14 @@
 package com.amolina.weather.clima.ui.cities
 
 import android.os.Bundle
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.View
 import com.amolina.weather.clima.BR
 import com.amolina.weather.clima.R
 import com.amolina.weather.clima.databinding.FragmentCitiesBinding
 import com.amolina.weather.clima.ui.base.BaseFragment
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import io.reactivex.disposables.CompositeDisposable
 import org.herventure.android.commons.CustomDialog
 import javax.inject.Inject
@@ -20,7 +20,7 @@ class CitiesFragment : BaseFragment<FragmentCitiesBinding, CitiesViewModel>(), C
     CitiesAdapter.CitiesAdapterListener {
 
     @Inject
-    lateinit var mLayoutManager: LinearLayoutManager
+    lateinit var mLayoutManager: androidx.recyclerview.widget.LinearLayoutManager
 
     @Inject
     lateinit var mCitiesViewModel: CitiesViewModel
@@ -94,9 +94,9 @@ class CitiesFragment : BaseFragment<FragmentCitiesBinding, CitiesViewModel>(), C
             }
         }
         mFragmentCitiesBinding?.weatherRecyclerView.let { binding ->
-            mLayoutManager?.orientation = LinearLayoutManager.VERTICAL
+            mLayoutManager?.orientation = androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
             binding?.layoutManager = mLayoutManager
-            binding?.itemAnimator = DefaultItemAnimator()
+            binding?.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
             binding?.adapter = adapter
         }
 
@@ -144,7 +144,6 @@ class CitiesFragment : BaseFragment<FragmentCitiesBinding, CitiesViewModel>(), C
         } else {
             mCitiesViewModel.getNearAndSelectedAllCities()
         }
-
     }
 
     private fun setDeleteDialog() {
@@ -157,7 +156,6 @@ class CitiesFragment : BaseFragment<FragmentCitiesBinding, CitiesViewModel>(), C
         deleteConfirmDialog.confirmListener = {
             deleteCity(deleteConfirmDialog.targetActionId)
         }
-
     }
 
     private fun setAddDialog() {
@@ -177,7 +175,6 @@ class CitiesFragment : BaseFragment<FragmentCitiesBinding, CitiesViewModel>(), C
         super.onDetach()
         baseActivity?.finish()
     }
-
 
     interface CitiesDaysListener {
         // TODO: Update argument type and name

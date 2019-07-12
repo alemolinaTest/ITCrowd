@@ -1,5 +1,6 @@
 package com.amolina.weather.clima.ui.cities
 
+import com.amolina.weather.clima.ui.citiesSelection.CitiesSelectFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

@@ -1,8 +1,8 @@
 package com.amolina.weather.clima;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
-import androidx.multidex.MultiDexApplication;
+import android.app.Application;
+import androidx.fragment.app.Fragment;
 import com.amolina.weather.clima.di.component.DaggerAppComponent;
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.interceptors.HttpLoggingInterceptor;
@@ -18,7 +18,7 @@ import javax.inject.Inject;
  * Created by Amolina on 02/07/19.
  */
 
-public class WeatherApp extends MultiDexApplication implements HasActivityInjector, HasSupportFragmentInjector {
+public class WeatherApp extends Application implements HasActivityInjector, HasSupportFragmentInjector {
 
     @Inject
     DispatchingAndroidInjector<Activity> activityDispatchingAndroidInjector;

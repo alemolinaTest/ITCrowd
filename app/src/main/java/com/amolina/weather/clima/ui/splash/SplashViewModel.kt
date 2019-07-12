@@ -1,9 +1,9 @@
 package com.amolina.weather.clima.ui.splash
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleObserver
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.OnLifecycleEvent
 import com.amolina.weather.clima.data.DataManager
 import com.amolina.weather.clima.data.model.api.ForecastResponse
 import com.amolina.weather.clima.data.model.api.WeatherResponse

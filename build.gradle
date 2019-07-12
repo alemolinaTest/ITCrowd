@@ -58,7 +58,7 @@ ext {
     mockitoVersion = '2.7.1'
     mockitoKotlin2Version = "2.0.0-RC1"
 
-    playServicesVersion = '15.0.1'
+    playServicesVersion = '17.0.0'
     okHttpVersion = '3.8.0'
     stethoOkVersion = '1.4.2'
     multidexVersion = '2.0.0'

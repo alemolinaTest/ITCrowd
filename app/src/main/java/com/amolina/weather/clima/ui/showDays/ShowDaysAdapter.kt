@@ -1,6 +1,6 @@
 package com.amolina.weather.clima.ui.showDays
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 
@@ -15,7 +15,7 @@ import java.util.ArrayList
  * Created by Amolina on 02/07/19.
  */
 
-class ShowDaysAdapter : RecyclerView.Adapter<BaseViewHolder>() {
+class ShowDaysAdapter : androidx.recyclerview.widget.RecyclerView.Adapter<BaseViewHolder>() {
 
     private val mShowResponseList: MutableList<ShowDaysItemModel>?
     private var mListener: ShowAdapterListener? = null

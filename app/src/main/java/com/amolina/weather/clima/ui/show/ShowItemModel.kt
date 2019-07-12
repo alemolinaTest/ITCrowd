@@ -1,17 +1,18 @@
 package com.amolina.weather.clima.ui.show
 
-import android.databinding.ObservableField
+import androidx.databinding.ObservableField
 
 /**
  * Created by Amolina on 02/07/19.
  */
 
 class ShowItemModel(imageUrl: String, city: String, temp: String, tempMin: String, tempMax: String, time: String,
-                    visibility: String, country: String, sunrise: String, sunset: String, cityId: Int) {
+                    visibility: String, country: String, sunrise: String, sunset: String, cityId: Int,
+                    pressure: String, humidity: String) {
 
     lateinit var mListener: ShowDaysListener
 
-    fun setListener(listener:ShowDaysListener) {
+    fun setListener(listener: ShowDaysListener) {
         mListener = listener
     }
 
@@ -31,7 +32,9 @@ class ShowItemModel(imageUrl: String, city: String, temp: String, tempMin: Strin
     var tempMax = ObservableField<String>(tempMax)
     var time = ObservableField<String>(time)
     var visibility = ObservableField<String>(visibility)
-    val country =  ObservableField<String>(country)
-    val sunrise =  ObservableField<String>(sunrise)
-    val sunset =  ObservableField<String>(sunset)
+    val country = ObservableField<String>(country)
+    val sunrise = ObservableField<String>(sunrise)
+    val sunset = ObservableField<String>(sunset)
+    val pressure = ObservableField<String>(pressure)
+    val humidity = ObservableField<String>(humidity)
 }

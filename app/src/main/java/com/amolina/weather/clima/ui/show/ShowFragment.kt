@@ -1,11 +1,11 @@
 package com.amolina.weather.clima.ui.show
 
 
-import android.arch.lifecycle.Observer
 import android.os.Bundle
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.RecyclerView
 import com.amolina.weather.clima.BR
 import com.amolina.weather.clima.R
 import com.amolina.weather.clima.databinding.FragmentShowBinding
@@ -19,10 +19,10 @@ import javax.inject.Inject
  */
 
 class ShowFragment : BaseFragment<FragmentShowBinding, ShowViewModel>(), ShowNavigator,
-    ShowAdapter.ShowAdapterListener {
+        ShowAdapter.ShowAdapterListener {
 
     @Inject
-    lateinit var mLayoutManager: LinearLayoutManager
+    lateinit var mLayoutManager: androidx.recyclerview.widget.LinearLayoutManager
 
     @Inject
     lateinit var mShowViewModel: ShowViewModel
@@ -92,10 +92,31 @@ class ShowFragment : BaseFragment<FragmentShowBinding, ShowViewModel>(), ShowNav
             }
         }
         mFragmentShowBinding?.weatherRecyclerView.let { binding ->
-            mLayoutManager.orientation = LinearLayoutManager.VERTICAL
+            mLayoutManager.orientation = RecyclerView.VERTICAL
             binding?.layoutManager = mLayoutManager
             binding?.itemAnimator = DefaultItemAnimator()
             binding?.adapter = adapter
+            binding?.setRecyclerListener(recycleListener)
+        }
+    }
+
+
+    /**
+
+     * RecycleListener that completely clears the [com.google.android.gms.maps.GoogleMap]
+
+     * attached to a row in the RecyclerView.
+
+     * Sets the map type to [com.google.android.gms.maps.GoogleMap.MAP_TYPE_NONE] and clears
+
+     * the map.
+
+     */
+
+    private val recycleListener = RecyclerView.RecyclerListener { holder ->
+
+        when (holder) {
+            is ShowAdapter.ShowViewHolder -> holder.clearView()
         }
     }
 

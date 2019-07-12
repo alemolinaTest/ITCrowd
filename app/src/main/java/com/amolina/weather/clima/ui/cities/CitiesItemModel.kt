@@ -1,6 +1,6 @@
 package com.amolina.weather.clima.ui.cities
 
-import android.databinding.ObservableField
+import androidx.databinding.ObservableField
 
 /**
  * Created by Amolina on 02/07/19.
