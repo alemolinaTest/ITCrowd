@@ -91,6 +91,7 @@ class ShowAdapter : androidx.recyclerview.widget.RecyclerView.Adapter<BaseViewHo
             with(mapView) {
                 // Initialise the MapView
                 onCreate(null)
+                GoogleMapOptions().liteMode(true)
                 // Set the map ready callback to receive the GoogleMap object
                 getMapAsync(this@ShowViewHolder)
             }
@@ -119,6 +120,11 @@ class ShowAdapter : androidx.recyclerview.widget.RecyclerView.Adapter<BaseViewHo
 
             setMapLocation()
 
+            with(mapView) {
+                onResume()
+                onEnterAmbient(null)
+            }
+
         }
 
         private fun setMapLocation() {
@@ -127,7 +133,7 @@ class ShowAdapter : androidx.recyclerview.widget.RecyclerView.Adapter<BaseViewHo
 
             with(mapCurrent) {
 
-                moveCamera(CameraUpdateFactory.newLatLngZoom(coord, 13f))
+                moveCamera(CameraUpdateFactory.newLatLngZoom(coord, 12f))
 
                 addMarker(coord?.let { com.google.android.gms.maps.model.MarkerOptions().position(it) })
 
