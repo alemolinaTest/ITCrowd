@@ -1,14 +1,14 @@
 # ITCrowd
 Weather App Dagger2, ROOM, AndroidNetworking, DataBinding, ViewModel (MVVM), reactivex
 
-Se usa Dagger2 para Dependency Injections
+Use of Dagger2 for Dependency Injections
 
-ROOM para presistencia
+ROOM and Shared Preferences for persistency
 
-AndroidNetworking en lugar de Retrofit, solo a modo de prueba. Perimite devolver Observables y es 2 veces mas rapida segun blogs.
+AndroidNetworking instead Retrofit, just to test it. Allow to get Observables as a response y it suppose to be 2 times faster.
 
-DataBinding para evitar asignaciones de views y eventos por codigo
+DataBinding for views data assignement 
 
-ViewModel con LiveData para evitar perdida de datos en Configuration Changes
+ViewModel with LiveData 
 
-LiveData respeta el lifecycle de activities o fragments. LiveData actualiza observers que estan en estado activo.
+LiveData respect activities and fragments lifecycle . LiveData updates active observers .
